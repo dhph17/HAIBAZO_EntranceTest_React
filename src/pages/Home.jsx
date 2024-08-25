@@ -129,15 +129,6 @@ const Home = () => {
                     />
                 ))}
             </div>
-
-            <div>
-                <h2>Clicked Points:</h2>
-                <ul>
-                    {clickedPoints.map((point, index) => (
-                        <li key={index}>{point}</li>
-                    ))}
-                </ul>
-            </div>
         </>
     )
 }
