@@ -3,14 +3,28 @@ import { useState, useEffect } from "react";
 import './styles.scss'
 const Point = ({ value, style, onClick }) => {
     const [backgroundColor, setBackgroundColor] = useState("white");
+    const [visible, setVisible] = useState(true);
 
     useEffect(() => {
         setBackgroundColor("white");
+        setVisible(true);
     }, [style]);
+
     const handleClick = () => {
-        setBackgroundColor("red");
-        onClick();
+        const { isCorrect } = onClick();
+        if (isCorrect) {
+            setBackgroundColor("red");
+            setTimeout(() => {
+                setVisible(false);
+            }, 2000);
+        } else {
+            setBackgroundColor("red");
+        }
     };
+
+    if (!visible) {
+        return null;
+    }
     return (
         <>
             <div className="point"

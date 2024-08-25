@@ -5,6 +5,7 @@ import './styles.scss';
 
 const Home = () => {
     const [result, setResult] = useState("LET'S PLAY")
+    const [resultStyle, setResultStyle] = useState("black");
     const [times, setTimes] = useState(0);
     const [btn, setBtn] = useState("Play");
     const [isClickedBtn, setIsClickedBtn] = useState(0);
@@ -26,6 +27,7 @@ const Home = () => {
         }
         setIsClickedBtn(isClicked => isClicked + 1);
         setResult("LET'S PLAY")
+        setResultStyle("black");
         intervalRef.current = setInterval(() => {
             setTimes(times => times + 0.1);
         }, 100);
@@ -46,41 +48,56 @@ const Home = () => {
         setClickedPoints([]);
 
     }, [isClickedBtn]);
-    console.log("pos: ", positions);
+    // console.log("pos: ", positions);
 
     const handlePointClick = (value) => {
         if (clickedPoints.includes(value)) {
             setClickedPoints(prev => [...prev, "Da ton tai"]);
             setResult("GAME OVER")
+            setResultStyle("red");
             clearInterval(intervalRef.current);
+            return { isCorrect: false };
         } else {
             if (clickedPoints.length === 0) {
                 if (value !== 1) {
-                    setResult("GAME OVER")
+                    setResult("GAME OVER");
+                    setResultStyle("red");
                     clearInterval(intervalRef.current);
-
+                    return { isCorrect: false };
                 } else {
                     setClickedPoints(prev => [...prev, value]);
+                    return { isCorrect: true };
                 }
             } else {
                 if (value === clickedPoints[clickedPoints.length - 1] + 1) {
                     setClickedPoints(prev => [...prev, value]);
                     if (value === points) {
-                        setResult("ALL CLEAR")
+                        setTimeout(() => {
+                            setResult("ALL CLEARED")
+                            setResultStyle("green");
+                        }, 2000);
                         clearInterval(intervalRef.current);
                     }
+                    return { isCorrect: true };
                 } else {
                     setResult("GAME OVER")
+                    setResultStyle("red");
                     clearInterval(intervalRef.current);
+                    return { isCorrect: false };
                 }
             }
-
         }
     };
 
+
+    console.log("clickedPoints: ", clickedPoints);
+
     return (
         <>
-            <h1 className='result'>{result}</h1>
+            <h1
+                className='result'
+                style={{ color: resultStyle }}
+            >{result}</h1>
             <form className="form">
                 <div className='name-input'>
                     <label htmlFor="name">Points:</label>
