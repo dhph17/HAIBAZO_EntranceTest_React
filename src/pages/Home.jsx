@@ -4,6 +4,7 @@ import Point from '../layouts/Points/Point';
 import './styles.scss';
 
 const Home = () => {
+    const [result, setResult] = useState("LET'S PLAY")
     const [times, setTimes] = useState(0);
     const [btn, setBtn] = useState("Play");
     const [isClickedBtn, setIsClickedBtn] = useState(0);
@@ -24,6 +25,7 @@ const Home = () => {
             setBtn("Restart");
         }
         setIsClickedBtn(isClicked => isClicked + 1);
+        setResult("LET'S PLAY")
         intervalRef.current = setInterval(() => {
             setTimes(times => times + 0.1);
         }, 100);
@@ -47,12 +49,38 @@ const Home = () => {
     console.log("pos: ", positions);
 
     const handlePointClick = (value) => {
-        setClickedPoints(prev => [...prev, value]); // Thêm số của Point đã click vào mảng
+        if (clickedPoints.includes(value)) {
+            setClickedPoints(prev => [...prev, "Da ton tai"]);
+            setResult("GAME OVER")
+            clearInterval(intervalRef.current);
+        } else {
+            if (clickedPoints.length === 0) {
+                if (value !== 1) {
+                    setResult("GAME OVER")
+                    clearInterval(intervalRef.current);
+
+                } else {
+                    setClickedPoints(prev => [...prev, value]);
+                }
+            } else {
+                if (value === clickedPoints[clickedPoints.length - 1] + 1) {
+                    setClickedPoints(prev => [...prev, value]);
+                    if (value === points) {
+                        setResult("ALL CLEAR")
+                        clearInterval(intervalRef.current);
+                    }
+                } else {
+                    setResult("GAME OVER")
+                    clearInterval(intervalRef.current);
+                }
+            }
+
+        }
     };
 
     return (
         <>
-            <h1 className='result'>LET&apos;S PLAY</h1>
+            <h1 className='result'>{result}</h1>
             <form className="form">
                 <div className='name-input'>
                     <label htmlFor="name">Points:</label>
