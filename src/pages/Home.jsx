@@ -14,6 +14,7 @@ const Home = () => {
     const intervalRef = useRef(null);
     const [positions, setPositions] = useState([]);
     const [clickedPoints, setClickedPoints] = useState([]);
+    const [reset, setReset] = useState(false);
 
     const handleClickBtn = () => {
         clearInterval(intervalRef.current);
@@ -28,6 +29,7 @@ const Home = () => {
         setIsClickedBtn(isClicked => isClicked + 1);
         setResult("LET'S PLAY")
         setResultStyle("black");
+        setReset(true)
         intervalRef.current = setInterval(() => {
             setTimes(times => times + 0.1);
         }, 100);
@@ -46,7 +48,7 @@ const Home = () => {
             setPositions(generateRandomPosition());
         }
         setClickedPoints([]);
-
+        setReset(false);
     }, [isClickedBtn]);
     // console.log("pos: ", positions);
 
@@ -66,6 +68,14 @@ const Home = () => {
                     return { isCorrect: false };
                 } else {
                     setClickedPoints(prev => [...prev, value]);
+                    if (value === points) {
+                        setTimeout(() => {
+                            setResult("ALL CLEARED")
+                            setResultStyle("green");
+                            clearInterval(intervalRef.current);
+                        }, 2000);
+
+                    }
                     return { isCorrect: true };
                 }
             } else {
@@ -75,8 +85,9 @@ const Home = () => {
                         setTimeout(() => {
                             setResult("ALL CLEARED")
                             setResultStyle("green");
+                            clearInterval(intervalRef.current);
                         }, 2000);
-                        clearInterval(intervalRef.current);
+
                     }
                     return { isCorrect: true };
                 } else {
@@ -125,7 +136,8 @@ const Home = () => {
                         key={index}
                         value={index + 1}
                         style={positions[index] || {}}
-                        onClick={() => handlePointClick(index + 1)} // Gọi callback khi click
+                        onClick={() => handlePointClick(index + 1)}
+                        reset={reset}
                     />
                 ))}
             </div>
