@@ -1,17 +1,30 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
+@import '../../assets/globalstyle/globalStyle.scss';
 
 body {
-    padding: 20px 100px;
+    padding: 10px 100px;
+}
+
+section {
+    display: flex;
+
+    #list-section {
+        margin-left: 8%;
+        width: 30vw;
+
+        #rule-section {
+            margin-bottom: 5%;
+
+            p {
+                margin-bottom: 2%;
+            }
+        }
+    }
 }
 
 .result {
     margin-bottom: 20px;
 }
+
 
 .form {
     margin-bottom: 10px;
@@ -40,17 +53,29 @@ body {
     }
 
     .button-form {
-        width: 100px;
+        width: 500px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
         .button {
             // background-color: ;
             text-align: center;
             padding: 5px;
-            width: 100%;
+            width: 100px;
 
             &:hover {
                 cursor: pointer;
                 background-color: lightgray;
+            }
+        }
+
+        #life {
+            display: flex;
+
+            .faHeart {
+                color: red;
+                margin-left: 5px;
             }
         }
     }

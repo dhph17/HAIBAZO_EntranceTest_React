@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { useState, useEffect, useRef } from "react";
+
 import './styles.scss'
-const Point = ({ value, style, onClick, reset }) => {
+const PointEasy = ({ value, style, onClick, reset }) => {
     const [backgroundColor, setBackgroundColor] = useState("white");
     const [visible, setVisible] = useState(true);
     const timeoutRef = useRef(null);
@@ -27,6 +28,9 @@ const Point = ({ value, style, onClick, reset }) => {
             }, 2000);
         } else {
             setBackgroundColor("red");
+            timeoutRef.current = setTimeout(() => {
+                setBackgroundColor("white");
+            }, 1000);
         }
     };
 
@@ -45,11 +49,11 @@ const Point = ({ value, style, onClick, reset }) => {
     )
 }
 
-Point.propTypes = {
+PointEasy.propTypes = {
     value: PropTypes.number.isRequired,
     style: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     reset: PropTypes.bool.isRequired
 };
 
-export default Point
+export default PointEasy
